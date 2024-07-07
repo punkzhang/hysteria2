@@ -766,7 +766,7 @@ else
     email="${random_part}@gmail.com"
   fi
 
-  yaml_content="acme:\n  domains:\n    - $domain\n  email: $email"
+  yaml_content="acme:\n  domains:\n    - $domain\n  email: $email\nserver:letsencrypt"
 
   if [ -f "config.yaml" ]; then
     echo -e "\nAppending to config.yaml..."
@@ -794,14 +794,14 @@ else
   exit 1
 fi
 
-echo "$(random_color '请输入伪装网址（默认https://news.ycombinator.com/）: ')"
+echo "$(random_color '请输入伪装网址（默认https://www.icloud.com/）: ')"
 read -p "" masquerade_url
 
 if [ -z "$masquerade_url" ]; then
-  masquerade_url="https://news.ycombinator.com/"
+  masquerade_url="https://www.icloud.com/"
 fi
 
-if sed -i "s|https://news.ycombinator.com/|$masquerade_url|" config.yaml; then
+if sed -i "s|https://www.icloud.com/|$masquerade_url|" config.yaml; then
   echo "$(random_color '伪装域名已设置为：')" $masquerade_url
 else
   echo "$(random_color '替换伪装域名失败，退出脚本。')"
