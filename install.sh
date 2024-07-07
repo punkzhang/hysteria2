@@ -602,7 +602,7 @@ masquerade:
   file:
     dir: /www/masq
   proxy:
-    url: https://news.ycombinator.com/
+    url: https://www.icloud.com/
     rewriteHost: true
   string:
     content: hello stupid world
@@ -766,7 +766,7 @@ else
     email="${random_part}@gmail.com"
   fi
 
-  yaml_content="acme:\n  domains:\n    - $domain\n  email: $email\nserver:https://acme-staging-v02.api.letsencrypt.org/directory"
+  yaml_content="acme:\n  domains:\n    - $domain\n  email: $email\n  ca: letsencrypt"
 
   if [ -f "config.yaml" ]; then
     echo -e "\nAppending to config.yaml..."
@@ -824,7 +824,7 @@ fi
   
      if [ "$start_port" -lt "$end_port" ]; then
 
-"$ipta" -t nat -A PREROUTING -i eth0 -p udp --dport "$start_port":"$end_port" -j DNAT --to-destination :"$port"
+"$ipta" -t nat -A PREROUTING -i enp0s6 -p udp --dport "$start_port":"$end_port" -j DNAT --to-destination :"$port"
         echo "$(random_color '端口跳跃功能已开启，将范围重定向到主端口：')" "$port"
         break
       else
