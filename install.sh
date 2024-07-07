@@ -766,7 +766,7 @@ else
     email="${random_part}@gmail.com"
   fi
 
-  yaml_content="acme:\n  domains:\n    - $domain\n  email: $email\nserver:letsencrypt"
+  yaml_content="acme:\n  domains:\n    - $domain\n  email: $email\nserver:https://acme-staging-v02.api.letsencrypt.org/directory"
 
   if [ -f "config.yaml" ]; then
     echo -e "\nAppending to config.yaml..."
