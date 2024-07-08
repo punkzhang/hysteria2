@@ -584,9 +584,9 @@ installhysteria2 () {
   echo "Download URL: $DOWNLOAD_URL"
 }
 
-echo "$(random_color '正在下载中,老登( ﾟдﾟ)つBye')"
+echo "$(random_color '正在下载中')"
 sleep 1
-installhy2 > /dev/null 2>&1
+installhysteria2 > /dev/null 2>&1
 
 # 就是写一个配置文件，你可以自己修改，别乱搞就行，安装hysteria2文档修改
 cat <<EOL > config.yaml
