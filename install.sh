@@ -562,9 +562,8 @@ fi
 uninstall_hysteria > /dev/null 2>&1
 
 installhysteria2 () {
-  cd /etc
-  mkdir hysteria2
-  cd hysteria2
+  mkdir -p /etc/hysteria2
+  cd /etc/hysteria2
 
   REPO_URL="https://github.com/apernet/hysteria/releases"
   LATEST_RELEASE=$(curl -s $REPO_URL/latest | jq -r '.tag_name')
