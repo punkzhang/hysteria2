@@ -120,7 +120,7 @@ get_installed_version() {
     if [ -x "/etc/hysteria2/hysteria-linux-$arch" ]; then
         version="$("/etc/hysteria2/hysteria-linux-$arch" version | grep Version | grep -o 'v[.0-9]*')"
     else
-        version="你还没有安装,老登"
+        version="你还没有安装"
     fi
 }
 
@@ -470,7 +470,7 @@ echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 echo "$(random_color '下面是你的clashmate配置')"
 
-cat /etc/hysteria2/clash-mate.yaml
+cat hysteria2/clash-mate.yaml
 
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
     exit
@@ -561,10 +561,10 @@ fi
 
 uninstall_hysteria > /dev/null 2>&1
 
-installhy2 () {
+installhysteria2 () {
   cd /etc
-  mkdir -p ~/hysteria2
-  cd ~/hysteria2
+  mkdir hysteria2
+  cd hysteria2
 
   REPO_URL="https://github.com/apernet/hysteria/releases"
   LATEST_RELEASE=$(curl -s $REPO_URL/latest | jq -r '.tag_name')
