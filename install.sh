@@ -362,7 +362,7 @@ echo -e "$(random_color '
 ░██  ░██     ░█             ░█ ░█      ░█  ░█     ░█░█░█
 ░██  ░██      ░██  █         ░█         ░█                   ')"
  echo -e "$(random_color '
-人生有两出悲剧：一是万念俱灰，另一是踌躇满志 ')"
+人生有两种悲剧：一种是想得到的没得到，另一种是想得到的得到了。 ')"
  
 }
 
@@ -380,12 +380,12 @@ checkact
 
 uninstall_hysteria() {
 
-sudo systemctl stop hysteria.service
+sudo systemctl stop hysteria2.service
 
-sudo systemctl disable hysteria.service
+sudo systemctl disable hysteria2.service
 
-if [ -f "/etc/systemd/system/hysteria.service" ]; then
-  sudo rm "/etc/systemd/system/hysteria.service"
+if [ -f "/etc/systemd/system/hysteria2.service" ]; then
+  sudo rm "/etc/systemd/system/hysteria2.service"
   echo "Hysteria 服务器服务文件已删除。"
 else
   echo "Hysteria 服务器服务文件不存在。"
@@ -513,8 +513,8 @@ else
   fi
 fi
 
-systemctl stop hysteria.service
-systemctl start hysteria.service
+systemctl stop hysteria2.service
+systemctl start hysteria2.service
 
 echo "更新完成,不是哥们,你有什么实力,你直接给我坐下(ง ื▿ ื)ว."
 }
@@ -920,7 +920,7 @@ echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 hysteria_directory="/etc/hysteria2/"
 hysteria_executable="/etc/hysteria2/hysteria-linux-$arch"
-hysteria_service_file="/etc/systemd/system/hysteria.service"
+hysteria_service_file="/etc/systemd/system/hysteria2.service"
 
 create_and_configure_service() {
   if [ -e "$hysteria_directory" ] && [ -e "$hysteria_executable" ]; then
@@ -946,8 +946,8 @@ EOF
 
 enable_and_start_service() {
   if [ -f "$hysteria_service_file" ]; then
-    systemctl enable hysteria.service
-    systemctl start hysteria.service
+    systemctl enable hysteria2.service
+    systemctl start hysteria2.service
     echo "Hysteria服务器服务已启用自启动并成功启动."
   else
     echo "Hysteria服务文件不存在，请先创建并配置服务文件."
@@ -976,13 +976,13 @@ echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 
 if [ -n "$start_port" ] && [ -n "$end_port" ]; then
 
-  echo -e "$(random_color '这是你的Hysteria2节点链接信息，请注意保存哦joker(老登，请使用最新版的neko哦): ')\nhysteria2://$password@$ipwan$domain:$port/?${ovokk}mport=$port,$start_port-$end_port&sni=$domain$domain_name#Hysteria2"
+  echo -e "$(random_color '这是你的Hysteria2节点链接信息，请注意保存: ')\nhysteria2://$password@$ipwan$domain:$port/?${ovokk}mport=$port,$start_port-$end_port&sni=$domain$domain_name#Hysteria2"
   
   echo "hysteria2://$password@$ipwan$domain:$port/?${ovokk}mport=$port,$start_port-$end_port&sni=$domain$domain_name#Hysteria2" > neko.txt
   
 else
 
-  echo -e "$(random_color '这是你的Hysteria2节点链接信息，请注意保存哦小崽子: ')\nhysteria2://$password@$ipwan$domain:$port/?${ovokk}sni=$domain$domain_name#Hysteria2"
+  echo -e "$(random_color '这是你的Hysteria2节点链接信息，请注意保存: ')\nhysteria2://$password@$ipwan$domain:$port/?${ovokk}sni=$domain$domain_name#Hysteria2"
   
   echo "hysteria2://$password@$ipwan$domain:$port/?${ovokk}sni=$domain$domain_name#Hysteria2" > neko.txt
   
