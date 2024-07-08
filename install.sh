@@ -117,8 +117,8 @@ set_architecture() {
 }
 
 get_installed_version() {
-    if [ -x "/root/hy3/hysteria-linux-$arch" ]; then
-        version="$("/root/hy3/hysteria-linux-$arch" version | grep Version | grep -o 'v[.0-9]*')"
+    if [ -x "/etc/hysteria2/hysteria-linux-$arch" ]; then
+        version="$("/etc/hysteria2/hysteria-linux-$arch" version | grep Version | grep -o 'v[.0-9]*')"
     else
         version="你还没有安装,老登"
     fi
@@ -402,20 +402,20 @@ else
   echo "未找到 $process_name 进程。"
 fi
 
-if [ -f "/root/hy3/hysteria-linux-$arch" ]; then
-  rm -f "/root/hy3/hysteria-linux-$arch"
+if [ -f "/etc/hysteria2/hysteria-linux-$arch" ]; then
+  rm -f "/etc/hysteria2/hysteria-linux-$arch"
   echo "Hysteria 服务器二进制文件已删除。"
 else
   echo "Hysteria 服务器二进制文件不存在。"
 fi
 
-if [ -f "/root/hy3/config.yaml" ]; then
-  rm -f "/root/hy3/config.yaml"
+if [ -f "/etc/hysteria2/config.yaml" ]; then
+  rm -f "/etc/hysteria2/config.yaml"
   echo "Hysteria 服务器配置文件已删除。"
 else
   echo "Hysteria 服务器配置文件不存在。"
 fi
-rm -r /root/hy3
+rm -r /etc/hysteria2
 systemctl stop ipppp.service
 systemctl disable ipppp.service
 rm /etc/systemd/system/ipppp.service
@@ -462,15 +462,15 @@ exit
 echo "$(random_color '下面是你的nekobox节点信息')"
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-cd /root/hy3/
+cd /etc/hysteria2/
 
-cat /root/hy3/neko.txt
+cat /etc/hysteria2/neko.txt
 
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 echo "$(random_color '下面是你的clashmate配置')"
 
-cat /root/hy3/clash-mate.yaml
+cat /etc/hysteria2/clash-mate.yaml
 
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
     exit
@@ -478,8 +478,8 @@ echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
     
    5)
 get_updated_version() {
-    if [ -x "/root/hy3/hysteria-linux-$arch" ]; then
-        version2="$("/root/hy3/hysteria-linux-$arch" version | grep Version | grep -o 'v[.0-9]*')"
+    if [ -x "/etc/hysteria2/hysteria-linux-$arch" ]; then
+        version2="$("/etc/hysteria2/hysteria-linux-$arch" version | grep Version | grep -o 'v[.0-9]*')"
     else
         version2="你还没有安装,老登"
     fi
@@ -498,7 +498,7 @@ else
   echo "未找到 $process_name 进程。"
 fi
 
-cd /root/hy3
+cd /etc/hysteria2
 
 rm -r hysteria-linux-$arch
 
@@ -549,22 +549,22 @@ fi
      ;;
 esac
 
-echo "$(random_color '别急,别急,别急,老登')"
+echo "$(random_color '别急,别急,别急')"
 sleep 1
 
 if [ "$hy2zt" = "运行中" ]; then
   echo "Hysteria 正在运行，请先卸载再安装。"
   exit 1
 else
-  echo "原神,启动。"
+  echo "安装ing"
 fi
 
 uninstall_hysteria > /dev/null 2>&1
 
 installhy2 () {
-  cd /root
-  mkdir -p ~/hy3
-  cd ~/hy3
+  cd /etc
+  mkdir -p ~/hysteria2
+  cd ~/hysteria2
 
   REPO_URL="https://github.com/apernet/hysteria/releases"
   LATEST_RELEASE=$(curl -s $REPO_URL/latest | jq -r '.tag_name')
@@ -595,7 +595,7 @@ listen: :443
 
 auth:
   type: password
-  password: Se7RAuFZ8Lzg
+  password: 9dQvEvvPhRntkG79duyKWy
 
 masquerade:
   type: proxy
@@ -646,7 +646,7 @@ while true; do
   
 
 generate_certificate() {
-    read -p "请输入要用于自签名证书的域名（默认为 bing.com）: " user_domain
+    read -p "请输入要用于自签名证书的域名（默认为 icloud.com）: " user_domain
     domain_name=${user_domain:-"bing.com"}
     if curl --output /dev/null --silent --head --fail "$domain_name"; then
         mkdir -p /etc/ssl/private
@@ -672,13 +672,13 @@ if [ "$cert_choice" == "2" ]; then
 
     temp_file=$(mktemp)
     echo -e "temp_file: $temp_file"
-    sed '3i\tls:\n  cert: '"/etc/ssl/private/$domain_name.crt"'\n  key: '"/etc/ssl/private/$domain_name.key"'' /root/hy3/config.yaml > "$temp_file"
-    mv "$temp_file" /root/hy3/config.yaml
-    touch /root/hy3/ca
+    sed '3i\tls:\n  cert: '"/etc/ssl/private/$domain_name.crt"'\n  key: '"/etc/ssl/private/$domain_name.key"'' /etc/hysteria2/config.yaml > "$temp_file"
+    mv "$temp_file" /etc/hysteria2/config.yaml
+    touch /etc/hysteria2/ca
    #这里加了一个小的变量
     ovokk="insecure=1&"
     choice1="true"
-    echo -e "已将证书和密钥信息写入 /root/hy3/config.yaml 文件。"
+    echo -e "已将证书和密钥信息写入 /etc/hysteria2/config.yaml 文件。"
     
 get_ipv4_info() {
   ip_address=$(wget -4 -qO- --no-check-certificate --user-agent=Mozilla --tries=2 --timeout=3 http://ip-api.com/json/) &&
@@ -743,8 +743,8 @@ done
 
 fi
 
-if [ -f "/root/hy3/ca" ]; then
-  echo "$(random_color '/root/hy3/ 文件夹中已存在名为 ca 的文件。跳过添加操作。')"
+if [ -f "/etc/hysteria2/ca" ]; then
+  echo "$(random_color '/etc/hysteria2/ 文件夹中已存在名为 ca 的文件。跳过添加操作。')"
 else
 
   echo "$(random_color '请输入你的域名（必须是解析好的域名哦）: ')"
@@ -808,7 +808,7 @@ else
   exit 1
 fi
    
-    echo "$(random_color '是否要开启端口跳跃功能？如果你不知道是干啥的，就衮吧，不用开启(ง ื▿ ื)ว（回车默认不开启，输入1开启）: ')"
+    echo "$(random_color '是否要开启端口跳跃功能？（回车默认不开启，输入1开启）: ')"
     read -p "" port_jump
   
     if [ -z "$port_jump" ]; then
@@ -836,17 +836,17 @@ fi
 done
 
 if [ -n "$port_jump" ] && [ "$port_jump" -eq 1 ]; then
-  echo "#!/bin/bash" > /root/hy3/ipppp.sh
-  echo "$ipta -t nat -A PREROUTING -i eth0 -p udp --dport $start_port:$end_port -j DNAT --to-destination :$port" >> /root/hy3/ipppp.sh
+  echo "#!/bin/bash" > /etc/hysteria2/ipppp.sh
+  echo "$ipta -t nat -A PREROUTING -i enp0s6 -p udp --dport $start_port:$end_port -j DNAT --to-destination :$port" >> /etc/hysteria2/ipppp.sh
   
  
-  chmod +x /root/hy3/ipppp.sh
+  chmod +x /etc/hysteria2/ipppp.sh
   
   echo "[Unit]" > /etc/systemd/system/ipppp.service
   echo "Description=IP Port Redirect" >> /etc/systemd/system/ipppp.service
   echo "" >> /etc/systemd/system/ipppp.service
   echo "[Service]" >> /etc/systemd/system/ipppp.service
-  echo "ExecStart=/root/hy3/ipppp.sh" >> /etc/systemd/system/ipppp.service
+  echo "ExecStart=/etc/hysteria2/ipppp.sh" >> /etc/systemd/system/ipppp.service
   echo "" >> /etc/systemd/system/ipppp.service
   echo "[Install]" >> /etc/systemd/system/ipppp.service
   echo "WantedBy=multi-user.target" >> /etc/systemd/system/ipppp.service
@@ -919,8 +919,8 @@ else
 fi
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-hysteria_directory="/root/hy3/"
-hysteria_executable="/root/hy3/hysteria-linux-$arch"
+hysteria_directory="/etc/hysteria2/"
+hysteria_executable="/etc/hysteria2/hysteria-linux-$arch"
 hysteria_service_file="/etc/systemd/system/hysteria.service"
 
 create_and_configure_service() {
@@ -970,7 +970,7 @@ sleep 2
 
 echo "$(random_color '
 这是你的clash配置:')"
-cat /root/hy3/clash-mate.yaml
+cat /etc/hysteria2/clash-mate.yaml
 
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
@@ -991,4 +991,4 @@ fi
 
 echo -e "$(random_color '
 
-Hysteria2安装成功，请合理使用哦,你直直-——直直接给我坐下')"
+Hysteria2安装成功。')"
