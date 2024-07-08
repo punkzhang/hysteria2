@@ -117,8 +117,8 @@ set_architecture() {
 }
 
 get_installed_version() {
-    if [ -x "/etc/hysteria2/hysteria-linux-$arch" ]; then
-        version="$("/etc/hysteria2/hysteria-linux-$arch" version | grep Version | grep -o 'v[.0-9]*')"
+    if [ -x "/etc/hysteria/hysteria-linux-$arch" ]; then
+        version="$("/etc/hysteria/hysteria-linux-$arch" version | grep Version | grep -o 'v[.0-9]*')"
     else
         version="你还没有安装"
     fi
@@ -380,12 +380,12 @@ checkact
 
 uninstall_hysteria() {
 
-sudo systemctl stop hysteria2.service
+sudo systemctl stop hysteria.service
 
-sudo systemctl disable hysteria2.service
+sudo systemctl disable hysteria.service
 
-if [ -f "/etc/systemd/system/hysteria2.service" ]; then
-  sudo rm "/etc/systemd/system/hysteria2.service"
+if [ -f "/etc/systemd/system/hysteria.service" ]; then
+  sudo rm "/etc/systemd/system/hysteria.service"
   echo "Hysteria 服务器服务文件已删除。"
 else
   echo "Hysteria 服务器服务文件不存在。"
@@ -402,20 +402,20 @@ else
   echo "未找到 $process_name 进程。"
 fi
 
-if [ -f "/etc/hysteria2/hysteria-linux-$arch" ]; then
-  rm -f "/etc/hysteria2/hysteria-linux-$arch"
+if [ -f "/etc/hysteria/hysteria-linux-$arch" ]; then
+  rm -f "/etc/hysteria/hysteria-linux-$arch"
   echo "Hysteria 服务器二进制文件已删除。"
 else
   echo "Hysteria 服务器二进制文件不存在。"
 fi
 
-if [ -f "/etc/hysteria2/config.yaml" ]; then
-  rm -f "/etc/hysteria2/config.yaml"
+if [ -f "/etc/hysteria/config.yaml" ]; then
+  rm -f "/etc/hysteria/config.yaml"
   echo "Hysteria 服务器配置文件已删除。"
 else
   echo "Hysteria 服务器配置文件不存在。"
 fi
-rm -r /etc/hysteria2
+rm -r /etc/hysteria
 systemctl stop ipppp.service
 systemctl disable ipppp.service
 rm /etc/systemd/system/ipppp.service
@@ -462,15 +462,15 @@ exit
 echo "$(random_color '下面是你的nekobox节点信息')"
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-cd /etc/hysteria2/
+cd /etc/hysteria/
 
-cat /etc/hysteria2/neko.txt
+cat /etc/hysteria/neko.txt
 
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 echo "$(random_color '下面是你的clashmate配置')"
 
-cat hysteria2/clash-mate.yaml
+cat hysteria/clash-mate.yaml
 
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
     exit
@@ -478,8 +478,8 @@ echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
     
    5)
 get_updated_version() {
-    if [ -x "/etc/hysteria2/hysteria-linux-$arch" ]; then
-        version2="$("/etc/hysteria2/hysteria-linux-$arch" version | grep Version | grep -o 'v[.0-9]*')"
+    if [ -x "/etc/hysteria/hysteria-linux-$arch" ]; then
+        version2="$("/etc/hysteria/hysteria-linux-$arch" version | grep Version | grep -o 'v[.0-9]*')"
     else
         version2="你还没有安装,老登"
     fi
@@ -498,7 +498,7 @@ else
   echo "未找到 $process_name 进程。"
 fi
 
-cd /etc/hysteria2
+cd /etc/hysteria
 
 rm -r hysteria-linux-$arch
 
@@ -513,8 +513,8 @@ else
   fi
 fi
 
-systemctl stop hysteria2.service
-systemctl start hysteria2.service
+systemctl stop hysteria.service
+systemctl start hysteria.service
 
 echo "更新完成,不是哥们,你有什么实力,你直接给我坐下(ง ื▿ ื)ว."
 }
@@ -561,9 +561,9 @@ fi
 
 uninstall_hysteria > /dev/null 2>&1
 
-installhysteria2 () {
-  mkdir -p /etc/hysteria2
-  cd /etc/hysteria2
+installhysteria () {
+  mkdir -p /etc/hysteria
+  cd /etc/hysteria
 
   REPO_URL="https://github.com/apernet/hysteria/releases"
   LATEST_RELEASE=$(curl -s $REPO_URL/latest | jq -r '.tag_name')
@@ -586,7 +586,7 @@ installhysteria2 () {
 
 echo "$(random_color '正在下载中')"
 sleep 1
-installhysteria2 > /dev/null 2>&1
+installhysteria > /dev/null 2>&1
 
 # 就是写一个配置文件，你可以自己修改，别乱搞就行，安装hysteria2文档修改
 cat <<EOL > config.yaml
@@ -671,13 +671,13 @@ if [ "$cert_choice" == "2" ]; then
 
     temp_file=$(mktemp)
     echo -e "temp_file: $temp_file"
-    sed '3i\tls:\n  cert: '"/etc/ssl/private/$domain_name.crt"'\n  key: '"/etc/ssl/private/$domain_name.key"'' /etc/hysteria2/config.yaml > "$temp_file"
-    mv "$temp_file" /etc/hysteria2/config.yaml
-    touch /etc/hysteria2/ca
+    sed '3i\tls:\n  cert: '"/etc/ssl/private/$domain_name.crt"'\n  key: '"/etc/ssl/private/$domain_name.key"'' /etc/hysteria/config.yaml > "$temp_file"
+    mv "$temp_file" /etc/hysteria/config.yaml
+    touch /etc/hysteria/ca
    #这里加了一个小的变量
     ovokk="insecure=1&"
     choice1="true"
-    echo -e "已将证书和密钥信息写入 /etc/hysteria2/config.yaml 文件。"
+    echo -e "已将证书和密钥信息写入 /etc/hysteria/config.yaml 文件。"
     
 get_ipv4_info() {
   ip_address=$(wget -4 -qO- --no-check-certificate --user-agent=Mozilla --tries=2 --timeout=3 http://ip-api.com/json/) &&
@@ -742,8 +742,8 @@ done
 
 fi
 
-if [ -f "/etc/hysteria2/ca" ]; then
-  echo "$(random_color '/etc/hysteria2/ 文件夹中已存在名为 ca 的文件。跳过添加操作。')"
+if [ -f "/etc/hysteria/ca" ]; then
+  echo "$(random_color '/etc/hysteria/ 文件夹中已存在名为 ca 的文件。跳过添加操作。')"
 else
 
   echo "$(random_color '请输入你的域名（必须是解析好的域名哦）: ')"
@@ -835,17 +835,17 @@ fi
 done
 
 if [ -n "$port_jump" ] && [ "$port_jump" -eq 1 ]; then
-  echo "#!/bin/bash" > /etc/hysteria2/ipppp.sh
-  echo "$ipta -t nat -A PREROUTING -i enp0s6 -p udp --dport $start_port:$end_port -j DNAT --to-destination :$port" >> /etc/hysteria2/ipppp.sh
+  echo "#!/bin/bash" > /etc/hysteria/ipppp.sh
+  echo "$ipta -t nat -A PREROUTING -i enp0s6 -p udp --dport $start_port:$end_port -j DNAT --to-destination :$port" >> /etc/hysteria/ipppp.sh
   
  
-  chmod +x /etc/hysteria2/ipppp.sh
+  chmod +x /etc/hysteria/ipppp.sh
   
   echo "[Unit]" > /etc/systemd/system/ipppp.service
   echo "Description=IP Port Redirect" >> /etc/systemd/system/ipppp.service
   echo "" >> /etc/systemd/system/ipppp.service
   echo "[Service]" >> /etc/systemd/system/ipppp.service
-  echo "ExecStart=/etc/hysteria2/ipppp.sh" >> /etc/systemd/system/ipppp.service
+  echo "ExecStart=/etc/hysteria/ipppp.sh" >> /etc/systemd/system/ipppp.service
   echo "" >> /etc/systemd/system/ipppp.service
   echo "[Install]" >> /etc/systemd/system/ipppp.service
   echo "WantedBy=multi-user.target" >> /etc/systemd/system/ipppp.service
@@ -918,9 +918,9 @@ else
 fi
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-hysteria_directory="/etc/hysteria2/"
-hysteria_executable="/etc/hysteria2/hysteria-linux-$arch"
-hysteria_service_file="/etc/systemd/system/hysteria2.service"
+hysteria_directory="/etc/hysteria/"
+hysteria_executable="/etc/hysteria/hysteria-linux-$arch"
+hysteria_service_file="/etc/systemd/system/hysteria.service"
 
 create_and_configure_service() {
   if [ -e "$hysteria_directory" ] && [ -e "$hysteria_executable" ]; then
@@ -946,8 +946,8 @@ EOF
 
 enable_and_start_service() {
   if [ -f "$hysteria_service_file" ]; then
-    systemctl enable hysteria2.service
-    systemctl start hysteria2.service
+    systemctl enable hysteria.service
+    systemctl start hysteria.service
     echo "Hysteria服务器服务已启用自启动并成功启动."
   else
     echo "Hysteria服务文件不存在，请先创建并配置服务文件."
@@ -969,7 +969,7 @@ sleep 2
 
 echo "$(random_color '
 这是你的clash配置:')"
-cat /etc/hysteria2/clash-mate.yaml
+cat /etc/hysteria/clash-mate.yaml
 
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
